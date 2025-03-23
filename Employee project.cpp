@@ -105,6 +105,12 @@ void searchUpdate(employee* em, int size) {
 }
 
 void deleteEmployee(employee* &em, int &size) {
+	 if (size==0) { // Check if list is empty
+        setConsoleColor(12);
+        cout<<"\nNo employees available to delete!";
+        setConsoleColor(7);
+        return;
+    }
     int deleteid;
     cout<<"\nEnter ID you want to delete: ";
     cin>>deleteid;
