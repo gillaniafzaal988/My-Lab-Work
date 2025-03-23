@@ -12,14 +12,22 @@ struct employee {
     string name;
     float salary;
 
-    void input() {
-        id=++idCounter;
-        cout<<"\nEnter name:";
-		cin>>name;
-        cout<<"Enter salary:";
-		cin>>salary;
-    }
+  void input() {
+    id = ++idCounter;
+    cout << "\nEnter name: ";
+    cin >> name;
 
+    // Salary validation loop
+    do {
+        cout << "Enter salary: ";
+        cin >> salary;
+        if (salary < 0) {
+            setConsoleColor(12);
+            cout << "Invalid salary! Salary cannot be negative. Please enter again.\n";
+            setConsoleColor(7);
+        }
+    } while (salary < 0);
+}
     void output() {
         cout<<"\n===========================================";
         cout<<"\n|ID:"<<id<<"|Name:"<<name<<"|Salary:"<<salary<<"|";
