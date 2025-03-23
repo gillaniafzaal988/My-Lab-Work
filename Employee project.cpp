@@ -13,20 +13,20 @@ struct employee {
     float salary;
 
   void input() {
-    id = ++idCounter;
-    cout << "\nEnter name: ";
-    cin >> name;
+    id=++idCounter;
+    cout<<"\nEnter name: ";
+    cin>>name;
 
     // Salary validation loop
     do {
-        cout << "Enter salary: ";
-        cin >> salary;
-        if (salary < 0) {
+        cout<<"Enter salary: ";
+        cin>>salary;
+        if (salary<0) {
             setConsoleColor(12);
-            cout << "Invalid salary! Salary cannot be negative. Please enter again.\n";
+            cout<<"Invalid salary! Salary cannot be negative. Please enter again.\n";
             setConsoleColor(7);
         }
-    } while (salary < 0);
+    } while (salary<0);
 }
     void output() {
         cout<<"\n===========================================";
@@ -73,6 +73,12 @@ void filterBySalaryRange(employee* em, int size) {
 }
 
 void searchUpdate(employee* em, int size) {
+	  if (size==0) { // Check if list is empty
+        setConsoleColor(12);
+        cout<<"\nNo employees available!";
+        setConsoleColor(7);
+        return;
+    }
     int searchid;
     cout<<"\nEnter the Id you want to update:";
 	cin>>searchid;
@@ -81,8 +87,15 @@ void searchUpdate(employee* em, int size) {
             cout<<"\nUpdating Employee ID:"<<searchid;
             cout<<"\nEnter new name:";
 			cin>>em[i].name;
-            cout<<"Enter new salary:";
-			cin>>em[i].salary;
+          do {
+            cout<<"Enter new salary: ";
+            cin>>em[i].salary;
+            if (em[i].salary<0) {
+            setConsoleColor(12);
+            cout << "Invalid salary! Salary cannot be negative. Please enter again.\n";
+            setConsoleColor(7);
+            }
+            } while (em[i].salary<0);
             return;
         }
     }
@@ -93,14 +106,24 @@ void searchUpdate(employee* em, int size) {
 
 void deleteEmployee(employee* &em, int &size) {
     int deleteid;
-    cout<<"\nEnter ID you want to delete:";
-	cin>>deleteid;
+    cout<<"\nEnter ID you want to delete: ";
+    cin>>deleteid;
+
     for (int i=0; i<size; i++) {
         if (em[i].id==deleteid) {
             for (int j=i; j<size-1; j++) {
-                em[j]=em[j+1];
+                em[j]=em[j + 1]; // Shift elements left
             }
             size--;
+
+            // Allocate new array with reduced size
+            employee* newEm=new employee[size];
+            for (int k=0; k<size; k++) {
+                newEm[k]=em[k];
+            }
+            delete[] em; // Free old memory
+            em=newEm;  // Assign new memory
+
             setConsoleColor(10);
             cout<<"Employee deleted successfully!";
             setConsoleColor(7);
